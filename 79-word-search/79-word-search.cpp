@@ -18,6 +18,20 @@ class Solution {
     }
 public:
     bool exist(vector<vector<char>>& board, string word) {
+        int count=0;
+        for(int i=1;i<word.size();i++)
+        {
+            if(word[i]==word[i-1])
+                count++;
+            else
+            {
+                if(count>6)
+                {
+                    reverse(word.begin(),word.end());
+                    break;
+                }
+            }
+        }
         for(int i=0;i<board.size();i++)
         {
             for(int j=0;j<board[0].size();j++)
