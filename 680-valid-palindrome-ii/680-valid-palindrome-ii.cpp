@@ -1,5 +1,5 @@
 class Solution {
-    bool validPalindrome(string s,int low,int high,int &k)
+    bool validPalindrome(string s, int low, int high,int& k)
     {
         while(low<high)
         {
@@ -20,9 +20,8 @@ class Solution {
     }
 public:
     bool validPalindrome(string s) {
-        int n=s.size();
         int low=0;
-        int high=n-1;
+        int high=s.size()-1;
         int k=1;
         return validPalindrome(s,low,high,k);
     }
