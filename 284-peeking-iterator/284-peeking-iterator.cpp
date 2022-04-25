@@ -33,11 +33,11 @@ public:
 	
 	// hasNext() and next() should behave the same as in the Iterator interface.
 	// Override them if needed.
-	int next() {
-	    return Iterator::next();
-	}
+	// int next() {
+	//     return Iterator::next();
+	// }
 	
-	bool hasNext() const {
-	    return Iterator::hasNext();
-	}
+	// bool hasNext() const {
+	//     return Iterator::hasNext();
+	// }
 };
