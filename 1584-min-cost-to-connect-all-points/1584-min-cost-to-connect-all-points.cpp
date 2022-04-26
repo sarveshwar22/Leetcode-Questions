@@ -170,9 +170,9 @@ public:
     }
     
     int minCostConnectPoints(vector<vector<int>>& points) {
-        // return kruskal(points);
+        return kruskal(points);
         // return prim(points);
         // return primOpt(points);
-        return primOptList(points);
+        // return primOptList(points);
     }
 };
