@@ -1,19 +1,34 @@
 class Solution {
 public:
     int maxOperations(vector<int>& nums, int k) {
-        unordered_map<int,int> m;
-        int n=nums.size();
-        int cnt=0;
-        for(int i=0;i<n;i++)
-        {
-            if(m[nums[i]]>0)
-            {
-                cnt++;
-                m[nums[i]]--;
+        int m = nums.size(), i = 0, j = m - 1, ans = 0;
+        sort(nums.begin(), nums.end());
+        while (i < j) {
+            int sum = nums[i] + nums[j];
+            if (sum == k) {
+                if (nums[i] == nums[j]) {
+                    int cnt = j - i + 1;
+                    ans += cnt / 2;
+                    break;
+                } else {
+                    int cnti = 1, cntj = 1;
+                    ++i, --j;
+                    while (i <= j && nums[i] == nums[i - 1]) {
+                        ++cnti;
+                        ++i;
+                    }
+                    while (i <= j && nums[j] == nums[j + 1]) {
+                        ++cntj;
+                        --j;
+                    }
+                    ans += min(cnti, cntj);
+                }
+            } else if (sum > k) {
+                --j;
+            } else {
+                ++i;
             }
-            else
-                m[k-nums[i]]++;
         }
-        return cnt;
+        return ans;
     }
 };
