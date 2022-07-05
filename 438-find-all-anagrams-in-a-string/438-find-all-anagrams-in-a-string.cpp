@@ -3,11 +3,11 @@ public:
     vector<int> findAnagrams(string s, string p) {
         unordered_map<char,int> cnt;
         unordered_map<char,int> cnt2;
-        // for(int i=0;i<26;i++)
-        // {
-        //     cnt['a'+i]=0;
-        //     cnt2['a'+i]=0;
-        // }
+        for(int i=0;i<26;i++)
+        {
+            cnt['a'+i]=0;
+            cnt2['a'+i]=0;
+        }
         vector<int> ans;
         if(s.size()<p.size())
             return ans;
@@ -33,8 +33,8 @@ public:
             if(end<s.size())
                 cnt2[s[end]]++;
             cnt2[s[start]]--;
-            if(cnt2[s[start]]==0)
-                cnt2.erase(s[start]);
+            // if(cnt2[s[start]]==0)
+            //     cnt2.erase(s[start]);
             start++;
         }
         return ans;
