@@ -27,6 +27,7 @@ public:
             return false;
         if(isEqual(root,subRoot))
             return true;
+        
         return isSubtree(root->left,subRoot)||isSubtree(root->right,subRoot);
     }
 };
