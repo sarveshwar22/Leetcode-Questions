@@ -37,7 +37,7 @@ public:
             prev=curr;
             curr=next;
         }
-        if(next!=NULL)
+        // if(next!=NULL)
         head->next=reverseKGroup(next,k);
         return prev;
     }
