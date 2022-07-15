@@ -1,9 +1,9 @@
 class Solution {
 public:
-    
-    int dp[10001] = {[0 ... 10000] = -1};
+    vector<int>dp;
     
     bool canPartition(vector<int>& nums) {
+        dp = vector<int>(20007,-1);
         int totalSum = accumulate(nums.begin(), nums.end(), 0);
         if(totalSum & 1) 
             return false;
