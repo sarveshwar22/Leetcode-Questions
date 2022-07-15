@@ -15,7 +15,7 @@ class Solution {
     }
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        if(nums1.size()>nums2.size())
+        if(nums1.size()<nums2.size())
             return i(nums2,nums1);
         return i(nums1,nums2);
     }
