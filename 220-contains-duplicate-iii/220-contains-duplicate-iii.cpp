@@ -2,22 +2,23 @@ class Solution {
 public:
     bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
 
-        int n=nums.size();
-        vector<pair<long long,long long>>v;
-        for(int i=0;i<n;i++) 
-        v.push_back({nums[i],i});
-        sort(v.begin(),v.end());
-        for(int i=0;i<n;i++){
-            for(int j=i+1;j<n;j++){
-                if((v[j].first-v[i].first)>t) 
-                    break;
-                if(abs(v[j].second-v[i].second)<=k) 
-                    return true;
+        int n = nums.size();
+        if(n==1 || k==0) return false; 
+        set<int> st;  
+        st.emplace(nums[0]);
+        for(int i=1; i<n; i++){
+            auto it = st.upper_bound(nums[i]);   
+            if(it!=st.end()){
+                if(abs((long long)*it - nums[i])<=t) return true;
             }
+            if(it!=st.begin()){
+                it--;   
+                if(abs((long long)*it - nums[i])<=t) return true;
+            }
+            st.emplace(nums[i]);
+            if(st.size()>k) st.erase(st.find(nums[i-k]));  
         }
         return false;
-
-
 
     }
 };
