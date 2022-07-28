@@ -1,24 +1,29 @@
 class Solution {
 public:
     vector<int> smallestTrimmedNumbers(vector<string>& nums, vector<vector<int>>& queries) {
-        int n = nums.size(), q = queries.size();
-        vector<pair<string, int>> arr(n);
-        
-        for(int i = 0; i < n; i++) {
-            arr[i] = {nums[i], i};
-        }
-        
-        vector<int> ans(q);
-        
-        for(int i = 0; i < q; i++) {
-            vector<pair<string, int>> temp = arr;
-            for(pair<string, int>& p : temp) {
-                p.first = p.first.substr(p.first.size() - queries[i][1]);
+        vector<int> answer;
+        vector<vector<int>> mem(110, vector<int>());
+        vector<int> v, temp;
+        for(int i = 0; i < nums.size(); i++) v.push_back(i);
+        vector<vector<int>> b(10, vector<int>());
+        for (int d = (int)nums[0].length() - 1; d >= 0; d--) {
+            for (int p = 0; p < v.size(); p++) {
+                b[nums[v[p]][d] - '0'].push_back(v[p]);
             }
-            sort(temp.begin(), temp.end());
-            ans[i] = temp[queries[i][0] - 1].second;
+            for (int di = 0; di <= 9; di++) {
+                for (int p = 0; p < b[di].size(); p++) {
+                    temp.push_back(b[di][p]);
+                }
+                b[di].clear();
+            }
+            v = temp;
+            temp.clear();
+            mem[d] = v;
         }
-        
-        return ans;
+        for (int i = 0; i < queries.size(); i++) {
+            int l = (int)nums[0].length();
+            answer.push_back(mem[l - queries[i][1]][queries[i][0] - 1]);
+        }
+        return answer;
     }
 };
