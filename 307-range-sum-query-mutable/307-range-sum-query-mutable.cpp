@@ -1,36 +1,72 @@
-class BIT { // One-based indexing
-    vector<int> bit;
-public:
-    BIT(int size=0) {
-        bit.assign(size + 1, 0);
-    }
-    int getSum(int idx) { // Get sum in range [1..idx]
-        int sum = 0;
-        for (; idx > 0; idx -= idx & (-idx))
-            sum += bit[idx];
-        return sum;
-    }
-    void addValue(int idx, int val) {
-        for (; idx < bit.size(); idx += idx & (-idx))
-            bit[idx] += val;
-    }
-};
 class NumArray {
-    BIT bit;
-    vector<int> nums;
+    vector<int> seg;
+    int n;// int len_segement_tree;
+    void buildSegTree(vector<int> &nums,int left,int right,int pos)
+    {
+        if(left==right)
+        {
+            seg[pos] = nums[left];
+            return;
+        }
+        int mid = (left+right)/2;
+        buildSegTree(nums,left,mid,2*pos+1);
+        buildSegTree(nums,mid+1,right,2*pos+2);
+        seg[pos] = seg[2*pos+1]+seg[2*pos+2];
+    }
+    void updateUtil(int index,int val,int pos,int left,int right)
+    {
+        if(index<left || index>right)
+            return;
+        if(left == right)
+        {
+            if(left == index)
+                seg[pos] = val;
+            return;
+        }
+        int mid = (left+right)/2;
+        updateUtil(index,val,2*pos+1,left,mid);
+        updateUtil(index,val,2*pos+2,mid+1,right);
+        seg[pos] = seg[2*pos+1]+seg[2*pos+2];  
+    }
+    int rangeUtil(int qleft,int qright,int left,int right,int pos)
+    {
+        if(qleft<=left && qright>=right)
+            return seg[pos];
+        if(qleft>right || qright<left)
+            return 0;
+        int mid = (left+right)/2;
+        return rangeUtil(qleft,qright,left,mid,2*pos+1)+
+            rangeUtil(qleft,qright,mid+1,right,2*pos+2);
+    }
 public:
     NumArray(vector<int>& nums) {
-        this->bit = BIT(nums.size());
-        this->nums = nums;
-        for (int i = 0; i < nums.size(); ++i)
-            bit.addValue(i+1, nums[i]);
+        n = nums.size();
+        if(n==0)
+            return;
+        seg.resize(4*n,0);
+        buildSegTree(nums,0,n-1,0);
+        // for(int i=0;i<4*n;i++)
+        // {
+        //     cout<<seg[i]<<" ";
+        // }
     }
+    
     void update(int index, int val) {
-        int diff = val - nums[index]; // get diff amount of `val` compared to current value
-        bit.addValue(index + 1, diff); // add this `diff` amount at index `index+1` of BIT, plus 1 because in BIT it's 1-based indexing
-        nums[index] = val; // update latest value of `nums[index]`
+        if(n==0)
+            return;
+        updateUtil(index,val,0,0,n-1);
     }
+    
     int sumRange(int left, int right) {
-        return bit.getSum(right+1) - bit.getSum(left);
+        if(n==0)
+            return 0;
+        return rangeUtil(left,right,0,n-1,0);
     }
 };
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
