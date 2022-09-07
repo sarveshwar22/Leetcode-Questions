@@ -15,6 +15,9 @@ class Solution {
     }
 public:
     int numberOfWays(int startPos, int endPos, int k) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
         dp=vector<vector<int>>(1005,vector<int>(1001,0));
         return memo(abs(endPos-startPos),k);
         
