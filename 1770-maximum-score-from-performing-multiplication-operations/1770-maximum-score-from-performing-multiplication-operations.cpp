@@ -18,6 +18,6 @@ class Solution {
 public:
     int maximumScore(vector<int>& nums, vector<int>& multipliers) {
         memset(dp,-1,sizeof(dp));
-        return dfs(nums,multipliers,0,0);
+        return dfs(nums,multipliers);
     }
 };
