@@ -25,7 +25,6 @@ public:
             adj[edge[1]].push_back(edge[0]);
         }
         int sum = accumulate(nums.begin(),nums.end(),0);
-        int res = 0;
         for(int p=n;p>=1;p--)
         {
             if(sum%p!=0)
@@ -34,6 +33,6 @@ public:
                 continue;
             return p-1;
         }
-        return res;
+        return 0;
     }
 };
