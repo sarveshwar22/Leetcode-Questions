@@ -1,8 +1,6 @@
 class Solution {
     static bool cmp(pair<int,int> &v1,pair<int,int> &v2)
     {
-        if(v1.first==v2.first)
-            return v1.second>v2.second;
         return v1.first>v2.first;
     }
 public:
