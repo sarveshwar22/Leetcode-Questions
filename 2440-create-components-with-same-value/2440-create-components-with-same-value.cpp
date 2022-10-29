@@ -26,13 +26,13 @@ public:
         }
         int sum = accumulate(nums.begin(),nums.end(),0);
         int res = 0;
-        for(int p=1;p<=n;p++)
+        for(int p=n;p>=1;p--)
         {
             if(sum%p!=0)
                 continue;
             if(dfs(nums,0,-1,sum/p)!=0)
                 continue;
-            res = max(res,p-1);
+            return p-1;
         }
         return res;
     }
