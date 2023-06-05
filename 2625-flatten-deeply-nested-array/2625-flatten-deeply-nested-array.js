@@ -9,7 +9,7 @@ var flat = function (arr, n) {
     var res = []
     for(let i=0;i<arr.length;i++)
         {
-            if(n>0 && Array.isArray(arr[i])){
+            if(Array.isArray(arr[i])){
                 res.push(...flat(arr[i],n-1));
             }
             else
