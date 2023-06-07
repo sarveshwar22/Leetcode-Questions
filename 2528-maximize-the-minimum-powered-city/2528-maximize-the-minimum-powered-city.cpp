@@ -1,46 +1,46 @@
+typedef long long int ll;
+
 class Solution {
-    bool isPossible(long long x,vector<long long>& stationPowers,int r,int k,int n)
-    {
-        vector<long long> extraPower(n+1);
+    
+    bool IsPossible (ll min_power, const vector<ll>& powers_s, int k, int r, int n) {
+        vector<ll> extra_power (n+1);
         
-        for(int i=0;i<n;i++)
-        {
-            extraPower[i]+=(i>=1)?extraPower[i-1]:0;
-            long long curr = stationPowers[i]+extraPower[i];
-            long long req = max(0LL,x-curr);
-            if(req==0)
-                continue;
-            if(req>k)
-                return false;
-            k-=req;
-            extraPower[i]+=req;
-            extraPower[min(n,i+2*r+1)] -=req;
+        for (int j = 0; j < n; j ++) {
+            extra_power[j] += (j > 0? extra_power[j-1] : 0);
+            
+            ll cur_power = powers_s[j] + extra_power[j];
+            ll required = max (0LL, min_power - cur_power);
+            if (required == 0) continue;
+            
+            if (required > k) return false;
+            k -= required;
+            
+            extra_power[j] += required;
+            extra_power[min(n, j+2*r+1)] -= required;
         }
+        
         return true;
     }
+    
 public:
-    long long maxPower(vector<int>& stations, int r, int k) {
+    long long maxPower(vector<int>& stations, int range, int k) {
         int n = stations.size();
-        vector<long long> stationPowers(n+1);
-        for(int i=0;i<n;i++)
-        {
-            stationPowers[max(0,i-r)] +=stations[i];
-            stationPowers[min(n,i+r+1)] -= stations[i];
+     
+        vector<ll> powers_s(n+1);
+        for (int j = 0; j < n; j ++) {
+            powers_s[max(0, j-range)] += stations[j];
+            powers_s[min(n, j+range+1)] -= stations[j];
         }
-        for(int i=1;i<=n;i++)
-            stationPowers[i]+=stationPowers[i-1];
+        for (int j = 1; j <= n; j ++) powers_s[j] += powers_s[j-1];
         
-        long long left=0,right=1e11;
-        while(left<right)
-        {
-            long long mid = (left+right)>>1;
-            if(isPossible(mid+1,stationPowers,r,k,n))
-            {
-                left = mid+1;
-            }
-            else
-                right=mid;
+        ll l = 0, r = 1e11;
+        while (l < r) {
+            ll m = (l+r) >> 1;
+            
+            if (IsPossible (m+1, powers_s, k, range, n)) l = m+1;
+            else r = m;
         }
-        return left;
+        
+        return l;
     }
 };
