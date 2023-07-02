@@ -1,25 +1,37 @@
 class Solution {
-    void dfs(int i,vector<vector<int>>& isConnected,vector<bool>& visited)
+    vector<int> parent;
+    int provinces;
+    int find(int x)
     {
-        visited[i] = true;
-        for(int j=0;j<isConnected.size();j++)
+        if(parent[x]==x)
+            return x;
+        return find(parent[x]);
+    }
+    void Union(int x,int y,vector<vector<int>>& isConnected)
+    {
+        x = find(x);
+        y = find(y);
+        if(x!=y)
         {
-            if(i!=j && isConnected[i][j] && !visited[j])
-                dfs(j,isConnected,visited);
+            parent[x] = y;
+            provinces--;
         }
     }
 public:
     int findCircleNum(vector<vector<int>>& isConnected) {
         int n = isConnected.size();
-        vector<bool> visited(n,false);
-        int res = 0;
+        parent = vector<int>(n,0);
+        provinces = n;
+        for(int i=0;i<n;i++)
+            parent[i] = i;
         for(int i=0;i<n;i++)
         {
-            if(!visited[i]){
-                dfs(i,isConnected,visited);
-                res++;
+            for(int j=i+1;j<n;j++)
+            {
+                if(isConnected[i][j])
+                    Union(i,j,isConnected);
             }
         }
-        return res;
+        return provinces;
     }
 };
