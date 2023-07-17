@@ -2,18 +2,17 @@
  * @param {Function} fn
  */
 function memoize(fn) {
-    const cache = new Map();
+    const cache = {};
     return function(...args) {
         const key = JSON.stringify(args);
-        if(cache.has(key))
+        if(key in cache)
             {
-                return cache.get(key);
+                return cache[key];
             }
         else
             {
-                const res = fn(...args);
-                cache.set(key,res);
-                return res;
+                cache[key] = fn(...args);
+                return cache[key];
             }
     }
 }
