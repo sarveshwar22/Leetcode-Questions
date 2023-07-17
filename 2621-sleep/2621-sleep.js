@@ -2,9 +2,10 @@
  * @param {number} millis
  */
 async function sleep(millis) {
-    return new Promise(resolve =>{
+    function callback(resolve, reject){
         setTimeout(resolve,millis);
-    })
+    }
+    return new Promise(callback)
 }
 
 /** 
