@@ -10,13 +10,8 @@ class Solution:
                 left+=1
                 right-=1
             elif s[left] in m:
-                while right>=left and (s[right] not in m):
-                    right-=1
-            elif s[right] in m:
-                while right>=left and (s[left] not in m):
-                    left+=1
+                right-=1
             else:
                 left+=1
-                right-=1
         return ''.join(s)
             
